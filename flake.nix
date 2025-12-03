@@ -29,7 +29,7 @@
       ];
 
       flake.flakeModules = {
-        default = ./flake-module.nix;
+        default = ./src/flake-module.nix;
       };
 
       perSystem =
