@@ -28,9 +28,8 @@
         ./src/lib
       ];
 
-      flake.modules = {
+      flake.flakeModules = {
         default = ./flake-module.nix;
-        devshelves = ./flake-module.nix;
       };
 
       perSystem =
