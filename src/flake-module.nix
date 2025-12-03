@@ -1,3 +1,4 @@
+{ lib' }:
 {
   self,
   lib,
@@ -12,9 +13,6 @@ let
   inherit (flake-parts-lib)
     mkPerSystemOption
     ;
-
-  lib' = self.lib;
-
 in
 {
   options = {

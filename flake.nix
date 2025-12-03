@@ -11,57 +11,64 @@
     inputs@{
       flake-parts,
       nixpkgs,
+      self,
       ...
     }:
     let
       systems = import inputs.systems;
-
+      lib' = self.lib;
     in
-    flake-parts.lib.mkFlake { inherit inputs; } {
-      inherit systems;
+    flake-parts.lib.mkFlake { inherit inputs; } (
+      { flake-parts-lib, ... }:
+      let
+        inherit (flake-parts-lib) importApply;
+        flakeModules.default = (importApply ./src/flake-module.nix { inherit lib'; });
+      in
+      {
+        inherit systems;
 
-      imports = [
-        inputs.flake-parts.flakeModules.modules
-        inputs.flake-parts.flakeModules.partitions
+        imports = [
+          inputs.flake-parts.flakeModules.modules
+          inputs.flake-parts.flakeModules.partitions
 
-        ./src/flake-module.nix
-        ./src/lib
-      ];
+          ./src/lib
 
-      flake.flakeModules = {
-        default = ./src/flake-module.nix;
-      };
+          flakeModules.default
+        ];
 
-      perSystem =
-        { system, pkgs, ... }:
-        {
-          _module.args = {
-            pkgs = import nixpkgs {
-              inherit system;
-              overlays = [ ];
+        flake = { inherit flakeModules; };
+
+        perSystem =
+          { system, pkgs, ... }:
+          {
+            _module.args = {
+              pkgs = import nixpkgs {
+                inherit system;
+                overlays = [ ];
+              };
             };
+            formatter = pkgs.nixfmt-rfc-style;
           };
-          formatter = pkgs.nixfmt-rfc-style;
+
+        partitions.dev = {
+          extraInputsFlake = ./.config;
+          module =
+            { inputs, ... }:
+            {
+              imports = [
+                inputs.git-hooks.flakeModule
+                inputs.treefmt-nix.flakeModule
+                ./.config/devshells
+                ./.config/git-hooks.nix
+                ./.config/treefmt.nix
+              ];
+            };
         };
 
-      partitions.dev = {
-        extraInputsFlake = ./.config;
-        module =
-          { inputs, ... }:
-          {
-            imports = [
-              inputs.git-hooks.flakeModule
-              inputs.treefmt-nix.flakeModule
-              ./.config/devshells
-              ./.config/git-hooks.nix
-              ./.config/treefmt.nix
-            ];
-          };
-      };
-
-      partitionedAttrs = {
-        checks = "dev";
-        devShells = "dev";
-      };
-    };
+        partitionedAttrs = {
+          checks = "dev";
+          devShells = "dev";
+        };
+      }
+    );
 }
