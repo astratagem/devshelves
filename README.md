@@ -49,7 +49,6 @@ Add to your flake inputs:
 }
 ```
 
-
 ## Options
 
 ### `perSystem.shells.<name>`
@@ -212,7 +211,7 @@ and priority ordering.
 Default priorities:
 
 | Type | Default Priority |
-|------|-----------------|
+| ---- | ---------------- |
 | Environment variables | 100 |
 | Shell hooks | 500 |
 | Late hooks | 900 |

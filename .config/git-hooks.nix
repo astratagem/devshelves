@@ -8,7 +8,7 @@
     {
       pre-commit.settings = {
         hooks = {
-          biome.enable = true;
+          # biome runs via treefmt
           markdownlint.enable = true;
           markdownlint.excludes = [
             # Auto-generated
@@ -20,6 +20,10 @@
           };
           treefmt.enable = true;
           yamllint.enable = true;
+          yamllint.excludes = [
+            # Auto-generated
+            "\\.copier-answers\\.yml$"
+          ];
         };
         default_stages = [
           "pre-commit"

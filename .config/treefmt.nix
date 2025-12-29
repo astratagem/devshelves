@@ -4,13 +4,27 @@
 
 {
   perSystem =
-    { ... }:
+    { pkgs, ... }:
     {
       treefmt = {
         projectRootFile = ".git/config";
-        programs = {
-          biome.enable = true;
-          nixfmt.enable = true;
+        programs.nixfmt.enable = true;
+        # Use custom biome formatter to reference local biome.json
+        settings.formatter.biome = {
+          command = "${pkgs.biome}/bin/biome";
+          options = [
+            "check"
+            "--write"
+            "--no-errors-on-unmatched"
+          ];
+          includes = [
+            "*.json"
+            "*.js"
+            "*.ts"
+            "*.jsx"
+            "*.tsx"
+            "*.css"
+          ];
         };
       };
     };
