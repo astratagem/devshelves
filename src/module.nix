@@ -14,7 +14,16 @@ let
     late = 900;
   };
 
-  envVarType = types.coercedTo types.str (value: { inherit value; }) (
+  # Accepts strings, paths, and derivations as raw values for env vars
+  isRawEnvValue = x: builtins.isString x || builtins.isPath x || lib.isDerivation x;
+
+  rawEnvValueType = types.mkOptionType {
+    name = "rawEnvValue";
+    description = "string, path, or derivation";
+    check = isRawEnvValue;
+  };
+
+  envVarType = types.coercedTo rawEnvValueType (value: { value = toString value; }) (
     types.submodule envVarSubmodule
   );
 
