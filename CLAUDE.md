@@ -1,3 +1,9 @@
+<!--
+SPDX-FileCopyrightText: (C) 2025 chris montgomery <chmont@protonmail.com>
+
+SPDX-License-Identifier: GPL-3.0-or-later
+-->
+
 # CLAUDE.md
 
 This file provides guidance to Claude Code (claude.ai/code) when working

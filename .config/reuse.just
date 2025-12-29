@@ -12,7 +12,7 @@ gpl3 := 'GPL-3.0-or-later'
 docs-license := "CC-BY-SA-4.0"
 and := ' AND '
 
-alias default-license := agpl3
+alias default-license := gpl
 alias public-domain := cc0
 
 lint:
@@ -21,7 +21,6 @@ lint:
 [doc("Annotate a file")]
 annotate license +ARGS:
     reuse annotate \
-    --template compact \
     --copyright-prefix spdx-c \
     --license '{{license}}' \
     --copyright '{{owner-attribution}}' \

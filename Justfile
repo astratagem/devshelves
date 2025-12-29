@@ -1,7 +1,11 @@
+# SPDX-FileCopyrightText: (C) 2025 chris montgomery <chmont@protonmail.com>
+#
+# SPDX-License-Identifier: GPL-3.0-or-later
+
 ###: <https://just.systems/man/en/>
 
-mod reuse '.config/reuse'
-mod release '.config/release'
+mod reuse '.config/reuse.just'
+mod release '.config/release.just'
 
 prj-root := env("PRJ_ROOT")
 
