@@ -18,7 +18,7 @@
         buildInputs
         ++ nativeBuildInputs
         ++ [
-          inputs'.nixpkgs-trunk.legacyPackages.just
+          pkgs.just
           pkgs.reuse
         ];
 
